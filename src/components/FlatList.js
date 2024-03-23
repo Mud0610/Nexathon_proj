@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import FlatItem from "./FlatItem";
 
 const FlatList = () => {
+<<<<<<< HEAD
   const [flatData, setFlatData] = useState([]);
 
   useEffect(() => {
@@ -20,6 +21,11 @@ const FlatList = () => {
       setFlatData(jsonData);
     } catch (error) {
       console.error("Error fetching data:", error);
+=======
+    const title = {
+        text: "Top Projects",
+        description: "Explore the most groundbreaking projects shaping tomorrow's world"
+>>>>>>> c2ec47ce59a5733f37bb3d9a483965591eecb830
     }
   };
 

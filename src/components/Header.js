@@ -11,7 +11,7 @@ const Header = () => {
                             <div className="d-flex align-items-center">
                             <i className="fas fa-home"></i>
                                 <span className="ms-2">
-                                    MB
+                                    C4
                            </span>
                             </div>
                         </Link>
