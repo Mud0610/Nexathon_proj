@@ -3,8 +3,8 @@ import TeamItem from "./TeamItem"
 
 const TeamList = () => {
     const title = {
-        text: "Lorem Ipsum",
-        description: "Lorem ipsum dolor sit ame"
+        text: "Recently Added",
+        description: "Discover the newest additions to our database of under-construction projects in our 'Recently Added' section"
     }
     return (
         <section className="section-teams">
