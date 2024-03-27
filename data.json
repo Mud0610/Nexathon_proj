@@ -27,13 +27,7 @@
     "images": "https://is1-3.housingcdn.com/4f2250e8/50b5aa03a9892ed10dea9b1df9c1f41e/v0/medium/jp_north_barcelona-mira_road_east-mumbai-jp_infra_%28mumbai%29_pvt_ltd.jpg",
     "slug": "jp-north-barcelona"
   },
-  {
-    "name": "Shapoorji Pallonji The Canvas Residences",
-    "price": 22033496,
-    "location": "Sewri",
-    "images": "https://indextap.s3.ap-south-1.amazonaws.com/images/complex/644262cc23fd8d19d1de877d/673d23b1-3b67-4a62-aa82-a2b3ab4045da_elevationtheresidences.png",
-    "slug": "shapoorji-pallonji-the-canvas-residences"
-  },
+  
   {
     "name": "GHP Mars Suncity",
     "price": 11038000,
@@ -110,5 +104,12 @@
     "location": "Worli",
     "images": "https://static.squareyards.com/resources/images/mumbai/tn-projectflagship/tn-lodha-the-park-side-project-flagship1.jpg",
     "slug": "lodha-the-park-side"
+  },
+  {
+    "name": "Shapoorji Pallonji The Canvas Residences",
+    "price": 22033496,
+    "location": "Sewri",
+    "images": "https://indextap.s3.ap-south-1.amazonaws.com/images/complex/644262cc23fd8d19d1de877d/673d23b1-3b67-4a62-aa82-a2b3ab4045da_elevationtheresidences.png",
+    "slug": "shapoorji-pallonji-the-canvas-residences"
   }
 ]
