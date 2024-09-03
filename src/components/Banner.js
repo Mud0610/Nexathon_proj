@@ -1,53 +1,105 @@
-import { useEffect, useState } from "react"
-import banner from "../banner.jpg"
+import { useEffect, useState } from "react";
+import banner from "../banner.jpg";
 import { Link } from "react-router-dom";
+import algoliasearch from "algoliasearch/lite";
+
 const Banner = () => {
-    const [search, setSearch] = useState();
-    const [find, setFind] = useState([]);
-    const [word, setWord] = useState("");
-    useEffect(() => {
-        setSearch(["a","b","test", "mb"])
-    }, [])
-    const findSearch = (e) => {
-        setWord(e.target.value)
-        const filteredCountries = search.filter(item => item.indexOf(e.target.value) > -1 ? item : null);
-        e.target.value.length === 0 ? setFind([]) : setFind(filteredCountries);
-    }
-    const findResult = () => {
-        if (find.length === 0 && word.length > 0) {
-            return <div className="find-search">Not Found</div>
+  const [searchInput, setSearchInput] = useState("");
+  const [searchResults, setSearchResults] = useState([]);
+
+  const handleSearchInputChange = async (e) => {
+    setSearchInput(e.target.value);
+
+    if (e.target.value.trim() !== "") {
+      const client = algoliasearch(
+        "8KWTT8PFUR",
+        "fe049f0882c8521b520cc1522037101a"
+      );
+      const index = client.initIndex("properties");
+
+      // Parsing input to create search filters
+      const filters = [];
+      const inputParts = e.target.value.split(";");
+
+      inputParts.forEach((part) => {
+        const [key, value] = part.split(":").map((str) => str.trim());
+        if (key && value) {
+          if (["name", "bhk", "location", "price", "area"].includes(key)) {
+            filters.push(`${key}:${value}`);
+          }
         }
-        if (find.length > 0) {
-            return <div className="find-search">
-                {
-                    find.map(item => {
-                        return <Link key={item} to="#">{item}</Link>
-                    })
-                }
-            </div>
-        }
+      });
+
+      const searchQuery = inputParts.find((part) => !part.includes(":")) || "";
+
+      try {
+        const { hits } = await index.search(searchQuery.trim(), {
+          filters: filters.join(" AND "),
+          attributesToHighlight: ["name"],
+        });
+        setSearchResults(hits);
+      } catch (error) {
+        console.error("Error performing search:", error);
+      }
+    } else {
+      setSearchResults([]);
     }
-    return (
-        <div className="banner d-flex align-items-center" style={{ backgroundImage: `url(${banner})` }}>
-            <div className="bg-custom">
-                <div className="container">
-                    <div className="row">
-                        <div className="col-lg-6 mx-auto">
-                            <div className="banner-area text-center pt-4 pb-4">
-                                <p></p>
-                                <h2 className="mt-2 mb-4 banner-title"><strong> Search Under Construction Projects</strong> </h2>
-                                <div className="search-area">
-                                    <input value={word} onChange={(e) => findSearch(e)} type="text" className="inp-search" placeholder="Search" />
-                                    <button className="btn-search m-2">Search All</button>
-                                </div>
-                                {findResult()}
-                            </div>
-                        </div>
-                    </div>
+  };
+
+  const handleSearchSubmit = (e) => {
+    e.preventDefault();
+    // Optional: Handle search submission logic here if needed
+  };
+
+  return (
+    <div
+      className="banner d-flex align-items-center"
+      style={{ backgroundImage: `url(${banner})` }}
+    >
+      <div className="bg-custom">
+        <div className="container">
+          <div className="row">
+            <div className="col-lg-6 mx-auto">
+              <div className="banner-area text-center pt-4 pb-4">
+                <h2 className="mt-2 mb-4 banner-title">
+                  <strong>Search Under Construction Projects</strong>
+                </h2>
+                <div className="search-area d-flex justify-content-center align-items-center">
+                  <form onSubmit={handleSearchSubmit} className="d-flex">
+                    <input
+                      type="text"
+                      value={searchInput}
+                      onChange={handleSearchInputChange}
+                      className="form-control inp-search mr-2"
+                      style={{ width: "490px" }}
+                      placeholder="Search (e.g., name:JP, bhk:2, location:Andheri)"
+                    />
+                    <button
+                      type="submit"
+                      className="btn btn-primary btn-search"
+                    >
+                      Search All
+                    </button>
+                  </form>
                 </div>
+                {searchResults.length > 0 && (
+                  <div className="find-search mt-3">
+                    <ul>
+                      {searchResults.map((result) => (
+                        <li key={result.objectID}>
+                          <Link to={`/flat/${result.name}`}>{result.name}</Link>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+              </div>
             </div>
+          </div>
         </div>
-    )
-}
+      </div>
+    </div>
+  );
+};
 
 export default Banner;
